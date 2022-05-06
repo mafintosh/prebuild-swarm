@@ -44,9 +44,10 @@ if (process.platform === 'darwin') {
 } else if (process.platform === 'win32') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
   process.chdir(tmpRepo)
+  const pkg = require(path.join(tmpRepo, 'package.json')
   spawnSync('npm.cmd', ['install'], { stdio: 'inherit' })
   spawnSync('npm.cmd', ['run', 'prebuild'], { stdio: 'inherit' })
-  spawnSync('npm.cmd', ['run', 'prebuild-ia32'], { stdio: 'inherit' })
+  if (pkg.scripts && pkg.scripts['prebuild-ia32']) spawnSync('npm.cmd', ['run', 'prebuild-ia32'], { stdio: 'inherit' })
   deliver(path.join(tmpRepo, 'prebuilds'))
 } else {
   console.log('Unknown platform:', process.platform)

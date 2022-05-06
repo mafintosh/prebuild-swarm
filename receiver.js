@@ -9,6 +9,8 @@ const server = node.createServer(function (socket) {
   console.log('Receiving builds')
 
   const e = tar.extract('./prebuilds', {
+    readable: true,
+    writable: true,
     map (header) {
       console.log('Extracting builds:', header.name)
       return header
