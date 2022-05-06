@@ -1,6 +1,6 @@
 {
   "name": "prebuild-swarm",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Easily make distributed prebuilds with Hyperswarm",
   "main": "index.js",
   "dependencies": {
