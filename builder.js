@@ -40,7 +40,7 @@ if (process.platform === 'darwin') {
   deliver(path.join(tmpRepo, 'prebuilds'))
 } else if (process.platform === 'linux') {
   spawnSync('npx', ['ubuntu-prebuild-container', repo], { stdio: 'inherit' })
-  deliver(path.join(tmpRepo, 'prebuilds', repo, 'prebuilds'))
+  deliver(path.join(tmp, 'prebuilds', repo, 'prebuilds'))
 } else if (process.platform === 'win32') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
   process.chdir(tmpRepo)
