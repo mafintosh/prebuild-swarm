@@ -44,9 +44,9 @@ if (process.platform === 'darwin') {
 } else if (process.platform === 'win32') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
   process.chdir(tmpRepo)
-  spawnSync('npm', ['install'], { stdio: 'inherit' })
-  spawnSync('npm', ['run', 'prebuild'], { stdio: 'inherit' })
-  spawnSync('npm', ['run', 'prebuild-ia32'], { stdio: 'inherit' })
+  spawnSync('npm.cmd', ['install'], { stdio: 'inherit' })
+  spawnSync('npm.cmd', ['run', 'prebuild'], { stdio: 'inherit' })
+  spawnSync('npm.cmd', ['run', 'prebuild-ia32'], { stdio: 'inherit' })
   deliver(path.join(tmpRepo, 'prebuilds'))
 } else {
   console.log('Unknown platform:', process.platform)
