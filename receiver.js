@@ -2,6 +2,7 @@
 
 const DHT = require('@hyperswarm/dht')
 const tar = require('tar-fs')
+const { spawnSync } = require('child_process')
 
 const node = new DHT()
 const server = node.createServer(function (socket) {
@@ -29,6 +30,17 @@ const server = node.createServer(function (socket) {
 server.listen().then(function () {
   console.log('Receiver started. Run the following on build machines:')
   console.log()
-  console.log('prebuild-swarm-builder ' + server.address().publicKey.toString('hex') + ' user/repo')
+  console.log('prebuild-swarm-builder ' + server.address().publicKey.toString('hex') + ' ' + repo())
   console.log()
 })
+
+function repo () {
+  for (const line of spawnSync('git', ['remote', '-v']).stdout.toString().split('\n')) {
+    if (line.indexOf('origin') === -1) continue
+    const repo = line.match(/[:/]([^/]+\/\S+)/)
+    if (!repo) continue
+    return repo[1].replace(/\.git$/, '')
+  }
+
+  return '<user/repo>'
+}
