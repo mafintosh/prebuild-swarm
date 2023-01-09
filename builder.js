@@ -10,6 +10,7 @@ const { spawnSync } = require('child_process')
 const tmp = path.join(os.tmpdir(), 'prebuild-swarm-' + Date.now())
 const key = process.argv[2]
 const repo = process.argv[3]
+const musl = process.argv.includes('--musl') ? ['--musl'] : []
 
 const tmpRepo = path.join(tmp, 'repo')
 
@@ -39,7 +40,7 @@ if (process.platform === 'darwin') {
   spawnSync('npm', ['run', 'prebuild'], { stdio: 'inherit' })
   deliver(path.join(tmpRepo, 'prebuilds'))
 } else if (process.platform === 'linux') {
-  spawnSync('npx', ['ubuntu-prebuild-container', repo], { stdio: 'inherit' })
+  spawnSync('npx', ['ubuntu-prebuild-container', repo].concat(musl), { stdio: 'inherit' })
   deliver(path.join(tmp, 'prebuilds', repo, 'prebuilds'))
 } else if (process.platform === 'win32') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
