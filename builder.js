@@ -36,7 +36,10 @@ process.chdir(tmp)
 if (process.platform === 'darwin') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
   process.chdir(tmpRepo)
-  if (fs.existsSync('.gitmodules')) spawnSync('git', ['submodule', 'update', '--init'], { stdio: 'inherit' })
+  if (fs.existsSync('.gitmodules')) {
+    spawnSync('git' ,['config', '--local', 'url.https://github.com/.insteadOf', 'ssh://git@github.com:'], { stdio: 'inherit' })
+    spawnSync('git', ['submodule', 'update', '--init'], { stdio: 'inherit' })
+  }
   spawnSync('npm', ['install'], { stdio: 'inherit' })
   spawnSync('npm', ['run', 'prebuild'], { stdio: 'inherit' })
   deliver(path.join(tmpRepo, 'prebuilds'))
@@ -45,8 +48,11 @@ if (process.platform === 'darwin') {
   deliver(path.join(tmp, 'prebuilds', repo, 'prebuilds'))
 } else if (process.platform === 'win32') {
   spawnSync('git', ['clone', 'https://github.com/' + repo, tmpRepo], { stdio: 'inherit' })
-  if (fs.existsSync('.gitmodules')) spawnSync('git', ['submodule', 'update', '--init'], { stdio: 'inherit' })
   process.chdir(tmpRepo)
+  if (fs.existsSync('.gitmodules')) {
+    spawnSync('git' ,['config', '--local', 'url.https://github.com/.insteadOf', 'ssh://git@github.com:'], { stdio: 'inherit' })
+    spawnSync('git', ['submodule', 'update', '--init'], { stdio: 'inherit' })
+  }
   const pkg = require(path.join(tmpRepo, 'package.json'))
   spawnSync('npm.cmd', ['install'], { stdio: 'inherit' })
   spawnSync('npm.cmd', ['run', 'prebuild'], { stdio: 'inherit' })
