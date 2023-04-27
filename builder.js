@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const DHT = require('@hyperswarm/dht')
+const DHT = require('hyperdht')
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
