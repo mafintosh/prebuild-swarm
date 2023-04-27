@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const DHT = require('@hyperswarm/dht')
+const DHT = require('hyperdht')
 const tar = require('tar-fs')
 const { spawnSync } = require('child_process')
 
